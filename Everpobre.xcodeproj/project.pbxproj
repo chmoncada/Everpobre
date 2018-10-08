@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		A1C37797216BEF2F00F1DB4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C37796216BEF2F00F1DB4B /* AppDelegate.swift */; };
-		A1C37799216BEF2F00F1DB4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C37798216BEF2F00F1DB4B /* ViewController.swift */; };
 		A1C3779C216BEF2F00F1DB4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1C3779A216BEF2F00F1DB4B /* Main.storyboard */; };
 		A1C3779E216BEF3000F1DB4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1C3779D216BEF3000F1DB4B /* Assets.xcassets */; };
 		A1C377A1216BEF3000F1DB4B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1C3779F216BEF3000F1DB4B /* LaunchScreen.storyboard */; };
+		A1C377AA216BF1D900F1DB4B /* NotebookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A1C37793216BEF2F00F1DB4B /* Everpobre.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Everpobre.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C37796216BEF2F00F1DB4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A1C37798216BEF2F00F1DB4B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A1C3779B216BEF2F00F1DB4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A1C3779D216BEF3000F1DB4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1C377A0216BEF3000F1DB4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1C377A2216BEF3000F1DB4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +54,22 @@
 		A1C37795216BEF2F00F1DB4B /* Everpobre */ = {
 			isa = PBXGroup;
 			children = (
+				A1C377A8216BF00900F1DB4B /* NotebookList */,
 				A1C37796216BEF2F00F1DB4B /* AppDelegate.swift */,
-				A1C37798216BEF2F00F1DB4B /* ViewController.swift */,
 				A1C3779A216BEF2F00F1DB4B /* Main.storyboard */,
 				A1C3779D216BEF3000F1DB4B /* Assets.xcassets */,
 				A1C3779F216BEF3000F1DB4B /* LaunchScreen.storyboard */,
 				A1C377A2216BEF3000F1DB4B /* Info.plist */,
 			);
 			path = Everpobre;
+			sourceTree = "<group>";
+		};
+		A1C377A8216BF00900F1DB4B /* NotebookList */ = {
+			isa = PBXGroup;
+			children = (
+				A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */,
+			);
+			path = NotebookList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1C37799216BEF2F00F1DB4B /* ViewController.swift in Sources */,
+				A1C377AA216BF1D900F1DB4B /* NotebookListViewController.swift in Sources */,
 				A1C37797216BEF2F00F1DB4B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
