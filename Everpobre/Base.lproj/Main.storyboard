@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="116" width="375" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotebookListCell" rowHeight="84" id="iye-By-AZX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotebookListCell" rowHeight="84" id="iye-By-AZX" customClass="NotebookListCell" customModule="Everpobre" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iye-By-AZX" id="PoD-8t-Gnl">
@@ -38,18 +38,18 @@
                                                                 <constraint firstAttribute="width" secondItem="r9F-lT-eGw" secondAttribute="height" multiplier="1:1" id="9G5-hQ-vkD"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Nel-ls-hdc">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Nel-ls-hdc">
                                                             <rect key="frame" x="71.5" y="0.0" width="250.5" height="63.5"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Notebook title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uU-xm-oa7">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="250.5" height="43"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Notebook title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uU-xm-oa7">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="250.5" height="29"/>
+                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Creation Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3V-gh-KHf">
-                                                                    <rect key="frame" x="0.0" y="43" width="250.5" height="20.5"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creation Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3V-gh-KHf">
+                                                                    <rect key="frame" x="0.0" y="37" width="250.5" height="26.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -65,8 +65,16 @@
                                                 <constraint firstAttribute="trailing" secondItem="ShY-ya-kpM" secondAttribute="trailing" constant="10" id="Ws5-9Z-ieZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="creationDateLabel" destination="S3V-gh-KHf" id="3eE-B1-rLf"/>
+                                            <outlet property="titleLabel" destination="0uU-xm-oa7" id="voP-DA-V0N"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="jE0-rV-sgB" id="yVE-Qe-Ldu"/>
+                                    <outlet property="delegate" destination="jE0-rV-sgB" id="BWE-hA-jMj"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -79,6 +87,9 @@
                         <viewLayoutGuide key="safeArea" id="WeF-pY-ssN"/>
                     </view>
                     <navigationItem key="navigationItem" title="Notebooks" id="SVQ-Q4-cIr"/>
+                    <connections>
+                        <outlet property="tableView" destination="BPc-g9-QwR" id="zX7-QQ-Hpd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aal-qX-Y01" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

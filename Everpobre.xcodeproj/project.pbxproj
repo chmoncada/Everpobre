@@ -12,6 +12,8 @@
 		A1C3779E216BEF3000F1DB4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1C3779D216BEF3000F1DB4B /* Assets.xcassets */; };
 		A1C377A1216BEF3000F1DB4B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1C3779F216BEF3000F1DB4B /* LaunchScreen.storyboard */; };
 		A1C377AA216BF1D900F1DB4B /* NotebookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */; };
+		A1C377AC216BFB0100F1DB4B /* NotebookListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377AB216BFB0100F1DB4B /* NotebookListCell.swift */; };
+		A1C377AF216BFC7E00F1DB4B /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377AE216BFC7E00F1DB4B /* Notebook.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		A1C377A0216BEF3000F1DB4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1C377A2216BEF3000F1DB4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListViewController.swift; sourceTree = "<group>"; };
+		A1C377AB216BFB0100F1DB4B /* NotebookListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListCell.swift; sourceTree = "<group>"; };
+		A1C377AE216BFC7E00F1DB4B /* Notebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 		A1C37795216BEF2F00F1DB4B /* Everpobre */ = {
 			isa = PBXGroup;
 			children = (
+				A1C377AD216BFC6C00F1DB4B /* Model */,
 				A1C377A8216BF00900F1DB4B /* NotebookList */,
 				A1C37796216BEF2F00F1DB4B /* AppDelegate.swift */,
 				A1C3779A216BEF2F00F1DB4B /* Main.storyboard */,
@@ -68,8 +73,17 @@
 			isa = PBXGroup;
 			children = (
 				A1C377A9216BF1D900F1DB4B /* NotebookListViewController.swift */,
+				A1C377AB216BFB0100F1DB4B /* NotebookListCell.swift */,
 			);
 			path = NotebookList;
+			sourceTree = "<group>";
+		};
+		A1C377AD216BFC6C00F1DB4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A1C377AE216BFC7E00F1DB4B /* Notebook.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +159,8 @@
 			files = (
 				A1C377AA216BF1D900F1DB4B /* NotebookListViewController.swift in Sources */,
 				A1C37797216BEF2F00F1DB4B /* AppDelegate.swift in Sources */,
+				A1C377AF216BFC7E00F1DB4B /* Notebook.swift in Sources */,
+				A1C377AC216BFB0100F1DB4B /* NotebookListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
