@@ -16,15 +16,21 @@ class NotesListViewController: UIViewController {
 		return tableView
 	}()
 
-	let notebook: deprecated_Notebook
+	let notebook: Notebook//deprecated_Notebook
 
-	var notes: [deprecated_Note] = [] {
-		didSet {
-			tableView.reloadData()
-		}
+//	var notes: [deprecated_Note] = [] {
+//		didSet {
+//			tableView.reloadData()
+//		}
+//	}
+
+	var notes: [Note] {
+		guard let notes = notebook.notes?.array else { return [] }
+
+		return notes as! [Note]
 	}
 
-	init(notebook: deprecated_Notebook) {
+	init(notebook: Notebook) {
 		self.notebook = notebook
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -37,9 +43,8 @@ class NotesListViewController: UIViewController {
 		super.viewDidLoad()
 
 		self.navigationController?.navigationBar.isTranslucent = false
-		title = "Notas de: \(notebook.name)"
+		title = "Notas"
 		setupTableView()
-		notes = notebook.notes
 	}
 
 	private func setupTableView() {

@@ -17,9 +17,9 @@ class NoteDetailsViewController: UIViewController {
 	@IBOutlet weak var lastSeenDateLabel: UILabel!
 	@IBOutlet weak var descriptionTextView: UITextView!
 
-	let note: deprecated_Note
+	let note: Note
 
-	init(note: deprecated_Note) {
+	init(note: Note) {
 		self.note = note
 		super.init(nibName: "NoteDetailsViewController", bundle: nil)
 	}
@@ -36,9 +36,9 @@ class NoteDetailsViewController: UIViewController {
 	private func configure() {
 		title = "Detalle"
 		titleLabel.text = note.text
-		tagsLabel.text = note.tags?.joined(separator: ",")
-		creationDateLabel.text = "Creado: \(note.creationDate.customStringLabel())"
-		lastSeenDateLabel.text = "Visto: \(note.lastSeenDate?.customStringLabel() ?? "ND")"
+		//tagsLabel.text = note.tags?.joined(separator: ",")
+		creationDateLabel.text = "Creado: \((note.creationDate as Date?)?.customStringLabel() ?? "ND")"
+		lastSeenDateLabel.text = "Visto: \((note.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
 		descriptionTextView.text = note.text ?? "Ingrese texto..."
 	}
 
