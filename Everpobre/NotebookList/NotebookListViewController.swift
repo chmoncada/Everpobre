@@ -7,19 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
 class NotebookListViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
 
-	var model: [Notebook] = [] {
+	var managedContext: NSManagedObjectContext! // Beware to have a value before presenting the VC
+
+	var model: [deprecated_Notebook] = [] {
 		didSet {
 			tableView.reloadData()
 		}
 	}
 
 	override func viewDidLoad() {
-		model = Notebook.dummyNotebookModel
+		model = deprecated_Notebook.dummyNotebookModel
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationController?.navigationItem.largeTitleDisplayMode = .always
+		
 		super.viewDidLoad()
 	}
 	

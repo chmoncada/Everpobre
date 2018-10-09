@@ -16,15 +16,15 @@ class NotesListViewController: UIViewController {
 		return tableView
 	}()
 
-	let notebook: Notebook
+	let notebook: deprecated_Notebook
 
-	var notes: [Note] = [] {
+	var notes: [deprecated_Note] = [] {
 		didSet {
 			tableView.reloadData()
 		}
 	}
 
-	init(notebook: Notebook) {
+	init(notebook: deprecated_Notebook) {
 		self.notebook = notebook
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -43,6 +43,7 @@ class NotesListViewController: UIViewController {
 
 	private func setupTableView() {
 		tableView.dataSource = self
+		tableView.delegate = self
 
 		view.addSubview(tableView)
 
@@ -65,6 +66,11 @@ extension NotesListViewController: UITableViewDataSource {
 
 		return cell
 	}
+}
 
-
+extension NotesListViewController: UITableViewDelegate {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let detailVC = NoteDetailsViewController(note: notes[indexPath.row])
+		show(detailVC, sender: nil)
+	}
 }
