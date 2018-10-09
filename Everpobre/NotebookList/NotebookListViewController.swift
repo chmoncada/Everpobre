@@ -15,32 +15,73 @@ class NotebookListViewController: UIViewController {
 
 	var managedContext: NSManagedObjectContext! // Beware to have a value before presenting the VC
 
-	var model: [deprecated_Notebook] = [] {
-		didSet {
-			tableView.reloadData()
+//	var model: [deprecated_Notebook] = [] {
+//		didSet {
+//			tableView.reloadData()
+//		}
+//	}
+
+	var dataSource: [NSManagedObject] {
+		do {
+			return try managedContext.fetch(Notebook.fetchRequest())
+		} catch let error as NSError {
+			print(error.localizedDescription)
+			return []
 		}
 	}
 
 	override func viewDidLoad() {
-		model = deprecated_Notebook.dummyNotebookModel
+		//model = deprecated_Notebook.dummyNotebookModel
 		navigationController?.navigationBar.prefersLargeTitles = true
 		navigationController?.navigationItem.largeTitleDisplayMode = .always
 		
 		super.viewDidLoad()
 	}
 	
+	@IBAction func addNotebook(_ sender: UIBarButtonItem) {
+		let alert = UIAlertController(title: "Nuevo Notebook", message: "Añade un nuevo Notebbok", preferredStyle: .alert)
+
+		let saveAction = UIAlertAction(title: "Grabar", style: .default) { [unowned self] action in
+			guard
+				let textField = alert.textFields?.first,
+				let nameToSave = textField.text
+			else { return }
+
+			let notebook = Notebook(context: self.managedContext)
+			notebook.name = nameToSave
+			notebook.creationDate = NSDate()
+
+			do {
+				try self.managedContext.save()
+			} catch let error as NSError {
+				print("TODO Error handling: \(error.debugDescription)")
+			}
+
+			self.tableView.reloadData()
+		}
+
+		let cancelAction = UIAlertAction(title: "Cancelar", style: .default)
+
+		alert.addTextField()
+		alert.addAction(saveAction)
+		alert.addAction(cancelAction)
+
+		present(alert, animated: true)
+	}
 }
 
 // MARK:- UITableViewDataSource implementation
 
 extension NotebookListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return model.count
+		return dataSource.count//model.count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "NotebookListCell", for: indexPath) as! NotebookListCell
-		cell.configure(with: model[indexPath.row])
+		let notebook = dataSource[indexPath.row] as! Notebook
+		//cell.configure(with: model[indexPath.row])
+		cell.configure(with: notebook)
 
 		return cell
 	}
@@ -54,8 +95,8 @@ extension NotebookListViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let notebook = model[indexPath.row]
-		let notesListVC = NotesListViewController(notebook: notebook)
-		show(notesListVC, sender: nil)
+//		let notebook = model[indexPath.row]
+//		let notesListVC = NotesListViewController(notebook: notebook)
+//		show(notesListVC, sender: nil)
 	}
 }

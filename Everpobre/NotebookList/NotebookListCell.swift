@@ -19,8 +19,8 @@ class NotebookListCell: UITableViewCell {
 		super.prepareForReuse()
 	}
 
-	func configure(with notebook: deprecated_Notebook) {
+	func configure(with notebook: Notebook) {
 		titleLabel.text = notebook.name
-		creationDateLabel.text = "Creado: \(notebook.creationDate.customStringLabel())"
+		creationDateLabel.text = "Creado: \((notebook.creationDate as Date?)?.customStringLabel() ?? "ND")"
 	}
 }

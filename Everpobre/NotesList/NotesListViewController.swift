@@ -36,6 +36,7 @@ class NotesListViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		self.navigationController?.navigationBar.isTranslucent = false
 		title = "Notas de: \(notebook.name)"
 		setupTableView()
 		notes = notebook.notes
