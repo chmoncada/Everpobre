@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BPc-g9-QwR">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="530.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotebookListCell" rowHeight="84" id="iye-By-AZX" customClass="NotebookListCell" customModule="Everpobre" customModuleProvider="target">
@@ -76,13 +76,33 @@
                                     <outlet property="delegate" destination="jE0-rV-sgB" id="BWE-hA-jMj"/>
                                 </connections>
                             </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xfZ-8r-gNc">
+                                <rect key="frame" x="0.0" y="530.5" width="375" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Total de Notebooks:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gg-Bp-QAe">
+                                        <rect key="frame" x="0.0" y="0.0" width="322" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilG-29-r1P">
+                                        <rect key="frame" x="330" y="0.0" width="45" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="BPc-g9-QwR" firstAttribute="top" secondItem="WeF-pY-ssN" secondAttribute="top" id="1a9-rG-9Rx"/>
                             <constraint firstItem="WeF-pY-ssN" firstAttribute="trailing" secondItem="BPc-g9-QwR" secondAttribute="trailing" id="7ic-PK-Jfq"/>
                             <constraint firstItem="BPc-g9-QwR" firstAttribute="leading" secondItem="WeF-pY-ssN" secondAttribute="leading" id="92K-05-AQb"/>
-                            <constraint firstItem="WeF-pY-ssN" firstAttribute="bottom" secondItem="BPc-g9-QwR" secondAttribute="bottom" id="IaD-v7-Jpt"/>
+                            <constraint firstItem="WeF-pY-ssN" firstAttribute="trailing" secondItem="xfZ-8r-gNc" secondAttribute="trailing" id="KKR-Vq-UPi"/>
+                            <constraint firstItem="xfZ-8r-gNc" firstAttribute="top" secondItem="BPc-g9-QwR" secondAttribute="bottom" id="UaJ-FC-hdC"/>
+                            <constraint firstItem="WeF-pY-ssN" firstAttribute="bottom" secondItem="xfZ-8r-gNc" secondAttribute="bottom" id="hDD-Fx-E2B"/>
+                            <constraint firstItem="xfZ-8r-gNc" firstAttribute="leading" secondItem="WeF-pY-ssN" secondAttribute="leading" id="lj5-y6-0qf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WeF-pY-ssN"/>
                     </view>
@@ -95,6 +115,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="BPc-g9-QwR" id="zX7-QQ-Hpd"/>
+                        <outlet property="totalLabel" destination="ilG-29-r1P" id="9aP-xS-wYM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aal-qX-Y01" userLabel="First Responder" sceneMemberID="firstResponder"/>
