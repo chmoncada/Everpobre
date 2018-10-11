@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NotesListViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class NotesListViewController: UIViewController {
 	}()
 
 	let notebook: Notebook//deprecated_Notebook
+	let managedContext: NSManagedObjectContext
 
 //	var notes: [deprecated_Note] = [] {
 //		didSet {
@@ -24,14 +26,22 @@ class NotesListViewController: UIViewController {
 //		}
 //	}
 
-	var notes: [Note] {
-		guard let notes = notebook.notes?.array else { return [] }
+//	var notes: [Note] {
+//		guard let notes = notebook.notes?.array else { return [] }
+//
+//		return notes as! [Note]
+//	}
 
-		return notes as! [Note]
+	var notes: [Note] {
+		didSet {
+			tableView.reloadData()
+		}
 	}
 
-	init(notebook: Notebook) {
+	init(notebook: Notebook, managedContext: NSManagedObjectContext) {
 		self.notebook = notebook
+		self.notes = (notebook.notes?.array as? [Note]) ?? []
+		self.managedContext = managedContext
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -53,7 +63,8 @@ class NotesListViewController: UIViewController {
 	}
 
 	@objc private func addNote() {
-		let newNoteVC = NoteDetailsViewController(kind: .new)
+		let newNoteVC = NoteDetailsViewController(kind: .new(notebook: notebook), managedContext: managedContext)
+		newNoteVC.delegate = self
 		let navVC = UINavigationController(rootViewController: newNoteVC)
 		present(navVC, animated: true, completion: nil)
 	}
@@ -88,7 +99,14 @@ extension NotesListViewController: UITableViewDataSource {
 extension NotesListViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		//let detailVC = NoteDetailsViewController(note: notes[indexPath.row])
-		let detailVC = NoteDetailsViewController(kind: .existing(notes[indexPath.row]))
+		let detailVC = NoteDetailsViewController(kind: .existing(note: notes[indexPath.row]), managedContext: managedContext)
+		detailVC.delegate = self
 		show(detailVC, sender: nil)
+	}
+}
+
+extension NotesListViewController: NoteDetailsViewControllerProtocol {
+	func didSaveNote() {
+		notes = (notebook.notes?.array as? [Note]) ?? []
 	}
 }
