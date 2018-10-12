@@ -290,7 +290,22 @@ extension NotebookListViewController: UISearchResultsUpdating {
 }
 
 extension NotebookListViewController: NSFetchedResultsControllerDelegate {
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+		switch type {
+		case .insert:
+			tableView.insertRows(at: [newIndexPath!], with: .automatic)
+		case .delete:
+			tableView.deleteRows(at: [indexPath!], with: .automatic)
+		default:
+			break
+		}
+	}
+
 	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-		tableView.reloadData()
+		tableView.endUpdates()
 	}
 }
