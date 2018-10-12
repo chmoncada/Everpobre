@@ -25,6 +25,10 @@
 		A1C377B4216C039800F1DB4B /* NotesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377B3216C039800F1DB4B /* NotesListViewController.swift */; };
 		A1C377B8216C0D8C00F1DB4B /* NoteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C377B6216C0D8C00F1DB4B /* NoteDetailsViewController.swift */; };
 		A1C377B9216C0D8C00F1DB4B /* NoteDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1C377B7216C0D8C00F1DB4B /* NoteDetailsViewController.xib */; };
+		A1C55826216FFE57008C8562 /* NewNotesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C55824216FFE57008C8562 /* NewNotesListViewController.swift */; };
+		A1C55827216FFE57008C8562 /* NewNotesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1C55825216FFE57008C8562 /* NewNotesListViewController.xib */; };
+		A1C5582A21700191008C8562 /* NotesListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C5582821700191008C8562 /* NotesListCollectionViewCell.swift */; };
+		A1C5582B21700191008C8562 /* NotesListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1C5582921700191008C8562 /* NotesListCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +52,10 @@
 		A1C377B3216C039800F1DB4B /* NotesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListViewController.swift; sourceTree = "<group>"; };
 		A1C377B6216C0D8C00F1DB4B /* NoteDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailsViewController.swift; sourceTree = "<group>"; };
 		A1C377B7216C0D8C00F1DB4B /* NoteDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoteDetailsViewController.xib; sourceTree = "<group>"; };
+		A1C55824216FFE57008C8562 /* NewNotesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNotesListViewController.swift; sourceTree = "<group>"; };
+		A1C55825216FFE57008C8562 /* NewNotesListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNotesListViewController.xib; sourceTree = "<group>"; };
+		A1C5582821700191008C8562 /* NotesListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListCollectionViewCell.swift; sourceTree = "<group>"; };
+		A1C5582921700191008C8562 /* NotesListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotesListCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +138,10 @@
 			isa = PBXGroup;
 			children = (
 				A1C377B3216C039800F1DB4B /* NotesListViewController.swift */,
+				A1C55824216FFE57008C8562 /* NewNotesListViewController.swift */,
+				A1C55825216FFE57008C8562 /* NewNotesListViewController.xib */,
+				A1C5582821700191008C8562 /* NotesListCollectionViewCell.swift */,
+				A1C5582921700191008C8562 /* NotesListCollectionViewCell.xib */,
 			);
 			path = NotesList;
 			sourceTree = "<group>";
@@ -203,8 +215,10 @@
 			files = (
 				A1C377A1216BEF3000F1DB4B /* LaunchScreen.storyboard in Resources */,
 				A1C377B9216C0D8C00F1DB4B /* NoteDetailsViewController.xib in Resources */,
+				A1C5582B21700191008C8562 /* NotesListCollectionViewCell.xib in Resources */,
 				A1C3779E216BEF3000F1DB4B /* Assets.xcassets in Resources */,
 				A1C3779C216BEF2F00F1DB4B /* Main.storyboard in Resources */,
+				A1C55827216FFE57008C8562 /* NewNotesListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1C55826216FFE57008C8562 /* NewNotesListViewController.swift in Sources */,
 				A1C377B1216C02B300F1DB4B /* deprecated_Note.swift in Sources */,
 				A1C377AA216BF1D900F1DB4B /* NotebookListViewController.swift in Sources */,
 				A1678CB0216D45A7006D961B /* Notebook+CoreDataProperties.swift in Sources */,
@@ -222,6 +237,7 @@
 				A1678CB3216D45A7006D961B /* Notebook+CoreDataClass.swift in Sources */,
 				A1678C9B216D3CF1006D961B /* Everpobre.xcdatamodeld in Sources */,
 				A1C37797216BEF2F00F1DB4B /* AppDelegate.swift in Sources */,
+				A1C5582A21700191008C8562 /* NotesListCollectionViewCell.swift in Sources */,
 				A1678C77216D3847006D961B /* CoreDataStack.swift in Sources */,
 				A1C377AF216BFC7E00F1DB4B /* deprecated_Notebook.swift in Sources */,
 				A1C377B4216C039800F1DB4B /* NotesListViewController.swift in Sources */,

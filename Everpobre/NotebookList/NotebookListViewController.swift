@@ -215,7 +215,8 @@ extension NotebookListViewController: UITableViewDelegate {
 		//let notebook = dataSource[indexPath.row] as! Notebook
 		let notebook = fetchedResultsController.object(at: indexPath)
 
-		let notesListVC = NotesListViewController(notebook: notebook, managedContext: managedContext)
+		//let notesListVC = NotesListViewController(notebook: notebook, managedContext: managedContext)
+		let notesListVC = NewNotesListViewController(notebook: notebook, managedContext: managedContext)
 		show(notesListVC, sender: nil)
 	}
 }
