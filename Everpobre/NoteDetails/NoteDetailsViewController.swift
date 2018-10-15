@@ -58,6 +58,8 @@ class NoteDetailsViewController: UIViewController {
 			navigationItem.leftBarButtonItem = cancelButtonItem
 			configureValues()
 		case .existing:
+			let saveButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
+			self.navigationItem.rightBarButtonItem = saveButtonItem
 			configureValues()
 		}
 	}
