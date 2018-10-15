@@ -42,6 +42,8 @@ class NewNotesListViewController: UIViewController {
 		let nib = UINib(nibName: "NotesListCollectionViewCell", bundle: nil)
 		collectionView.register(nib, forCellWithReuseIdentifier: "NotesListCollectionViewCell")
 
+		collectionView.backgroundColor = .lightGray
+
 		let addButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
 		self.navigationItem.rightBarButtonItem = addButtonItem
 	}
