@@ -14,3 +14,14 @@ import CoreData
 public class Note: NSManagedObject {
 
 }
+
+extension Note {
+
+	func csv() -> String {
+		let exportedTitle = title ?? "Sin Titulo"
+		let exportedText = text ?? ""
+		let exportedCreationDate = (creationDate as Date?)?.customStringLabel() ?? "ND"
+
+		return "\(exportedCreationDate),\(exportedTitle),\(exportedText)"
+	}
+}

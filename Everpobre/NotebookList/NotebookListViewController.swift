@@ -14,7 +14,8 @@ class NotebookListViewController: UIViewController {
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var totalLabel: UILabel!
 	
-	var managedContext: NSManagedObjectContext! // Beware to have a value before presenting the VC
+//	var managedContext: NSManagedObjectContext! // Beware to have a value before presenting the VC
+	var coredataStack: CoreDataStack!
 
 //	var model: [deprecated_Notebook] = [] {
 //		didSet {
@@ -51,7 +52,7 @@ class NotebookListViewController: UIViewController {
 
 		return NSFetchedResultsController(
 			fetchRequest: fetchRequest,
-			managedObjectContext: managedContext,
+			managedObjectContext: coredataStack.managedContext,
 			sectionNameKeyPath: #keyPath(Notebook.creationDate),
 			cacheName: nil)
 	}
@@ -113,7 +114,7 @@ class NotebookListViewController: UIViewController {
 		fetchRequest.predicate = predicate
 
 		do {
-			let countResult = try managedContext.fetch(fetchRequest)
+			let countResult = try coredataStack.managedContext.fetch(fetchRequest)
 			let count = countResult.first!.intValue
 			totalLabel.text = "\(count)"
 		} catch let error as NSError {
@@ -131,12 +132,12 @@ class NotebookListViewController: UIViewController {
 				let nameToSave = textField.text
 			else { return }
 
-			let notebook = Notebook(context: self.managedContext)
+			let notebook = Notebook(context: self.coredataStack.managedContext)
 			notebook.name = nameToSave
 			notebook.creationDate = NSDate()
 
 			do {
-				try self.managedContext.save()
+				try self.coredataStack.managedContext.save()
 			} catch let error as NSError {
 				print("TODO Error handling: \(error.debugDescription)")
 			}
@@ -194,10 +195,10 @@ extension NotebookListViewController: UITableViewDataSource {
 
 		let notebookToRemove = fetchedResultsController.object(at: indexPath)
 
-		managedContext.delete(notebookToRemove)
+		coredataStack.managedContext.delete(notebookToRemove)
 
 		do {
-			try managedContext.save()
+			try coredataStack.managedContext.save()
 			//tableView.deleteRows(at: [indexPath], with: .automatic)
 		} catch let error as NSError {
 			print("error: \(error.localizedDescription)")
@@ -226,7 +227,7 @@ extension NotebookListViewController: UITableViewDelegate {
 		let notebook = fetchedResultsController.object(at: indexPath)
 
 		//let notesListVC = NotesListViewController(notebook: notebook, managedContext: managedContext)
-		let notesListVC = NewNotesListViewController(notebook: notebook, managedContext: managedContext)
+		let notesListVC = NewNotesListViewController(notebook: notebook, coreDataStack: coredataStack)
 		show(notesListVC, sender: nil)
 	}
 
