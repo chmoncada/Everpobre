@@ -109,6 +109,7 @@
 		A1C37795216BEF2F00F1DB4B /* Everpobre */ = {
 			isa = PBXGroup;
 			children = (
+				A14D6E7E21754539007EEE1F /* Animator.swift */,
 				A1678C73216D2F91006D961B /* Utils */,
 				A1C377AD216BFC6C00F1DB4B /* Model */,
 				A1C377A8216BF00900F1DB4B /* NotebookList */,
@@ -120,7 +121,6 @@
 				A1C3779F216BEF3000F1DB4B /* LaunchScreen.storyboard */,
 				A1C377A2216BEF3000F1DB4B /* Info.plist */,
 				A1678C99216D3CF1006D961B /* Everpobre.xcdatamodeld */,
-				A14D6E7E21754539007EEE1F /* Animator.swift */,
 			);
 			path = Everpobre;
 			sourceTree = "<group>";

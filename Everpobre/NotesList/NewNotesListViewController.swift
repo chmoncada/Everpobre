@@ -165,6 +165,12 @@ extension NewNotesListViewController: NoteDetailsViewControllerProtocol {
 extension NewNotesListViewController: UIViewControllerTransitioningDelegate {
 
 	func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+		let indexPath = (collectionView.indexPathsForSelectedItems?.first!)!
+		let cell = collectionView.cellForItem(at: indexPath)
+		transition.originFrame = cell!.superview!.convert(cell!.frame, to: nil)
+
+		transition.presenting = true
+
 		return transition
 	}
 
