@@ -23,6 +23,8 @@ class NewNotesListViewController: UIViewController {
 		}
 	}
 
+	let transition = Animator()
+
 	init(notebook: Notebook, coreDataStack: CoreDataStack) {
 		self.notebook = notebook
 		self.notes = (notebook.notes?.array as? [Note]) ?? []
@@ -138,7 +140,13 @@ extension NewNotesListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let detailVC = NoteDetailsViewController(kind: .existing(note: notes[indexPath.row]), managedContext: coreDataStack.managedContext)
 		detailVC.delegate = self
-		self.show(detailVC, sender: nil)
+		//self.show(detailVC, sender: nil)
+
+		// custom animation
+		let navVC = UINavigationController(rootViewController: detailVC)
+		navVC.transitioningDelegate = self
+		present(navVC, animated: true, completion: nil)
+
 	}
 }
 
@@ -151,5 +159,16 @@ extension NewNotesListViewController: UICollectionViewDelegateFlowLayout {
 extension NewNotesListViewController: NoteDetailsViewControllerProtocol {
 	func didSaveNote() {
 		self.notes = (notebook.notes?.array as? [Note]) ?? []
+	}
+}
+
+extension NewNotesListViewController: UIViewControllerTransitioningDelegate {
+
+	func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+		return transition
+	}
+
+	func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+		return nil
 	}
 }
