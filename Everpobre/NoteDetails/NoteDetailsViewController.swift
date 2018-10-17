@@ -65,38 +65,49 @@ class NoteDetailsViewController: UIViewController {
 	}
 
 	@objc private func saveNote() {
+
+		func addProperties(to note: Note) -> Note {
+			note.title = titleTextField.text
+			note.text = descriptionTextView.text
+
+			let imageData: NSData?
+			if let image = imageView.image,
+				let data = image.pngData() {
+				imageData = NSData(data: data)
+			} else { imageData = nil }
+			note.image = imageData
+
+			return note
+		}
+
 		switch kind {
 		case .existing(let note):
-			note.title = titleTextField.text
-			note.text = descriptionTextView.text
-			note.lastSeenDate = NSDate()
+			let modifiedNote = addProperties(to: note)
+			modifiedNote.lastSeenDate = NSDate()
 
-			do {
-				try managedContext.save()
-				delegate?.didSaveNote()
-			} catch let error as NSError {
-				print("error: \(error.localizedDescription)")
-			}
-			navigationController?.popViewController(animated: true)
 		case .new(let notebook):
 			let note = Note(context: managedContext)
-			note.title = titleTextField.text
-			note.text = descriptionTextView.text
-			note.creationDate = NSDate()
-			note.notebook = notebook
+			let modifiedNote = addProperties(to: note)
+			modifiedNote.creationDate = NSDate()
+			modifiedNote.notebook = notebook
 
 			if let notes = notebook.notes?.mutableCopy() as? NSMutableOrderedSet {
 				notes.add(note)
 				notebook.notes = notes
 			}
+		}
 
-			do {
-				try managedContext.save()
-				delegate?.didSaveNote()
-			} catch let error as NSError {
-				print("error: \(error.localizedDescription)")
-			}
+		do {
+			try managedContext.save()
+			delegate?.didSaveNote()
+		} catch let error as NSError {
+			print("error: \(error.localizedDescription)")
+		}
 
+		switch kind {
+		case .existing:
+			navigationController?.popViewController(animated: true)
+		case .new:
 			dismiss(animated: true, completion: nil)
 		}
 
@@ -106,6 +117,44 @@ class NoteDetailsViewController: UIViewController {
 		dismiss(animated: true, completion: nil)
 	}
 
+	
+	@IBAction func pickImage(_ sender: UIButton) {
+		if UIImagePickerController.isSourceTypeAvailable(.camera) {
+			showPhotoMenu()
+		} else {
+			choosePhotoFromLibrary()
+		}
+	}
+
+	private func showPhotoMenu() {
+		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let takePhotoAction = UIAlertAction(title: "Take Photo", style: .default, handler: { _ in self.takePhotoWithCamera() })
+		let chooseFromLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
+
+		alertController.addAction(cancelAction)
+		alertController.addAction(takePhotoAction)
+		alertController.addAction(chooseFromLibrary)
+
+		present(alertController, animated: true, completion: nil)
+	}
+
+	private func choosePhotoFromLibrary() {
+		let imagePicker = UIImagePickerController()
+		imagePicker.sourceType = .photoLibrary
+		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
+		present(imagePicker, animated: true, completion: nil)
+	}
+
+	private func takePhotoWithCamera() {
+		let imagePicker = UIImagePickerController()
+		imagePicker.sourceType = .camera
+		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
+		present(imagePicker, animated: true, completion: nil)
+	}
+	
 	private func configureValues() {
 		title = kind.title
 		titleTextField.text = kind.note?.title
@@ -113,6 +162,13 @@ class NoteDetailsViewController: UIViewController {
 		creationDateLabel.text = "Creado: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
 		lastSeenDateLabel.text = "Visto: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
 		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
+
+		guard let data = kind.note?.image as Data? else {
+			imageView.image = nil // TODO: cambiar para mostrar el placeholder
+			return
+		}
+
+		imageView.image = UIImage(data: data)
 	}
 
 }
@@ -130,5 +186,42 @@ private extension NoteDetailsViewController.Kind {
 		case .new:
 			return "Nueva Nota"
 		}
+	}
+}
+
+extension NoteDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+	func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+		dismiss(animated: true, completion: nil)
+	}
+
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+		func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+			return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+		}
+
+		func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+			return input.rawValue
+		}
+
+		let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+		let rawImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+
+		let imageSize = CGSize(width: self.imageView.bounds.width * UIScreen.main.scale, height: self.imageView.bounds.height * UIScreen.main.scale)
+
+		DispatchQueue.global(qos: .default).async {
+			let image = rawImage?.resizedImageWithContentMode(.scaleAspectFill, bounds: imageSize, interpolationQuality: .high)
+
+			DispatchQueue.main.async {
+				if let image = image {
+					self.imageView.contentMode = .scaleAspectFill
+					self.imageView.clipsToBounds = true
+					self.imageView.image = image
+				}
+			}
+		}
+
+		dismiss(animated: true, completion: nil)
 	}
 }

@@ -29,13 +29,37 @@
                 <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xij-DR-vel" userLabel="Tarjeta">
                     <rect key="frame" x="20" y="64" width="374" height="180"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="120x180" translatesAutoresizingMaskIntoConstraints="NO" id="PF9-Of-ze7">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2bU-vL-iov">
                             <rect key="frame" x="0.0" y="0.0" width="120" height="180"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="120x180" translatesAutoresizingMaskIntoConstraints="NO" id="PF9-Of-ze7">
+                                    <rect key="frame" x="0.0" y="0.0" width="120" height="180"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUf-AB-3JN">
+                                    <rect key="frame" x="0.0" y="0.0" width="120" height="180"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <state key="normal" title="Edit">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="pickImage:" destination="-1" eventType="touchUpInside" id="ZUO-TS-fQd"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="120" id="kYV-rv-jA7"/>
-                                <constraint firstAttribute="width" secondItem="PF9-Of-ze7" secondAttribute="height" multiplier="1:1.5" id="osC-9j-auF"/>
+                                <constraint firstItem="gUf-AB-3JN" firstAttribute="leading" secondItem="2bU-vL-iov" secondAttribute="leading" id="2Ax-nf-CVq"/>
+                                <constraint firstAttribute="bottom" secondItem="PF9-Of-ze7" secondAttribute="bottom" id="2MA-5b-1rI"/>
+                                <constraint firstAttribute="trailing" secondItem="PF9-Of-ze7" secondAttribute="trailing" id="2XZ-Uk-jbG"/>
+                                <constraint firstItem="PF9-Of-ze7" firstAttribute="leading" secondItem="2bU-vL-iov" secondAttribute="leading" id="f7p-pE-qsY"/>
+                                <constraint firstItem="PF9-Of-ze7" firstAttribute="top" secondItem="2bU-vL-iov" secondAttribute="top" id="fsW-wh-4vC"/>
+                                <constraint firstAttribute="width" secondItem="2bU-vL-iov" secondAttribute="height" multiplier="2:3" id="nUy-sm-OhI"/>
+                                <constraint firstAttribute="width" constant="120" id="pvf-p7-Q3u"/>
+                                <constraint firstAttribute="bottom" secondItem="gUf-AB-3JN" secondAttribute="bottom" id="rRb-c1-s5h"/>
+                                <constraint firstItem="gUf-AB-3JN" firstAttribute="top" secondItem="2bU-vL-iov" secondAttribute="top" id="sY2-sn-EEh"/>
+                                <constraint firstAttribute="trailing" secondItem="gUf-AB-3JN" secondAttribute="trailing" id="tHp-iy-HJb"/>
                             </constraints>
-                        </imageView>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Nnu-Oo-XzI" userLabel="Datos">
                             <rect key="frame" x="128" y="0.0" width="246" height="180"/>
                             <subviews>
