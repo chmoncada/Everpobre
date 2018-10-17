@@ -9,12 +9,22 @@
 import UIKit
 import CoreData
 
+// MARK:- NoteDetailsViewControllerProtocol
+
 protocol NoteDetailsViewControllerProtocol: class {
 	func didSaveNote()
 }
 
+// MARK:- NoteDetailsViewController class
+
 class NoteDetailsViewController: UIViewController {
 
+	enum Kind {
+		case new(notebook: Notebook)
+		case existing(note: Note)
+	}
+
+	// MARK: IBOutlets
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var tagsLabel: UILabel!
@@ -22,16 +32,15 @@ class NoteDetailsViewController: UIViewController {
 	@IBOutlet weak var lastSeenDateLabel: UILabel!
 	@IBOutlet weak var descriptionTextView: UITextView!
 
-//	let note: Note
-	enum Kind {
-		case new(notebook: Notebook)
-		case existing(note: Note)
-	}
+	// MARK: Parameters
 
+//	let note: Note
 	let managedContext: NSManagedObjectContext
 	let kind: Kind
 
 	weak var delegate: NoteDetailsViewControllerProtocol?
+
+	// MARK: Init
 
 	init(kind: Kind, managedContext: NSManagedObjectContext) {
 		self.kind = kind
@@ -43,27 +52,44 @@ class NoteDetailsViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	// MARK: Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-		configure(with: kind)
+		configure()
     }
 
-	private func configure(with kind: Kind) {
-		switch kind {
-		case .new:
-			let saveButtonItem = UIBarButtonItem(barButtonSystemItem: .save
-				, target: self, action: #selector(saveNote))
-			self.navigationItem.rightBarButtonItem = saveButtonItem
-			let cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-			navigationItem.leftBarButtonItem = cancelButtonItem
-			configureValues()
-		case .existing:
-			let saveButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
-			self.navigationItem.rightBarButtonItem = saveButtonItem
-			let cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-			self.navigationItem.leftBarButtonItem = cancelButtonItem
-			configureValues()
+	// MARK: IBAction
+
+	@IBAction private func pickImage(_ sender: UIButton) {
+		if UIImagePickerController.isSourceTypeAvailable(.camera) {
+			showPhotoMenu()
+		} else {
+			choosePhotoFromLibrary()
 		}
+	}
+
+	// MARK: Helper methods
+
+	private func configure() {
+		let saveButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote))
+		self.navigationItem.rightBarButtonItem = saveButtonItem
+		let cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+		self.navigationItem.leftBarButtonItem = cancelButtonItem
+
+		title = kind.title
+		titleTextField.text = kind.note?.title
+		//tagsLabel.text = note.tags?.joined(separator: ",")
+		creationDateLabel.text = "Creado: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
+		lastSeenDateLabel.text = "Visto: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
+		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
+
+		guard let data = kind.note?.image as Data? else {
+			imageView.image = #imageLiteral(resourceName: "120x180.png")
+			return
+		}
+
+		imageView.image = UIImage(data: data)
 	}
 
 	@objc private func saveNote() {
@@ -106,90 +132,16 @@ class NoteDetailsViewController: UIViewController {
 			print("error: \(error.localizedDescription)")
 		}
 
-		switch kind {
-		case .existing:
-			navigationController?.popViewController(animated: true)
-		case .new:
-			dismiss(animated: true, completion: nil)
-		}
+		dismiss(animated: true, completion: nil)
 
 	}
 
 	@objc private func cancel() {
 		dismiss(animated: true, completion: nil)
 	}
-
-	
-	@IBAction func pickImage(_ sender: UIButton) {
-		if UIImagePickerController.isSourceTypeAvailable(.camera) {
-			showPhotoMenu()
-		} else {
-			choosePhotoFromLibrary()
-		}
-	}
-
-	private func showPhotoMenu() {
-		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-		let takePhotoAction = UIAlertAction(title: "Take Photo", style: .default, handler: { _ in self.takePhotoWithCamera() })
-		let chooseFromLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
-
-		alertController.addAction(cancelAction)
-		alertController.addAction(takePhotoAction)
-		alertController.addAction(chooseFromLibrary)
-
-		present(alertController, animated: true, completion: nil)
-	}
-
-	private func choosePhotoFromLibrary() {
-		let imagePicker = UIImagePickerController()
-		imagePicker.sourceType = .photoLibrary
-		imagePicker.delegate = self
-		imagePicker.allowsEditing = true
-		present(imagePicker, animated: true, completion: nil)
-	}
-
-	private func takePhotoWithCamera() {
-		let imagePicker = UIImagePickerController()
-		imagePicker.sourceType = .camera
-		imagePicker.delegate = self
-		imagePicker.allowsEditing = true
-		present(imagePicker, animated: true, completion: nil)
-	}
-	
-	private func configureValues() {
-		title = kind.title
-		titleTextField.text = kind.note?.title
-		//tagsLabel.text = note.tags?.joined(separator: ",")
-		creationDateLabel.text = "Creado: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
-		lastSeenDateLabel.text = "Visto: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
-		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
-
-		guard let data = kind.note?.image as Data? else {
-			imageView.image = nil // TODO: cambiar para mostrar el placeholder
-			return
-		}
-
-		imageView.image = UIImage(data: data)
-	}
-
 }
 
-private extension NoteDetailsViewController.Kind {
-	var note: Note? {
-		guard case let .existing(note) = self else { return nil }
-		return note
-	}
-
-	var title: String {
-		switch self {
-		case .existing:
-			return "Detalle"
-		case .new:
-			return "Nueva Nota"
-		}
-	}
-}
+// MARK:- UIImagePickerControllerDelegate & related methods
 
 extension NoteDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 	func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -226,4 +178,53 @@ extension NoteDetailsViewController: UIImagePickerControllerDelegate, UINavigati
 
 		dismiss(animated: true, completion: nil)
 	}
+
+	private func showPhotoMenu() {
+		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let takePhotoAction = UIAlertAction(title: "Take Photo", style: .default, handler: { _ in self.takePhotoWithCamera() })
+		let chooseFromLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in self.choosePhotoFromLibrary() })
+
+		alertController.addAction(cancelAction)
+		alertController.addAction(takePhotoAction)
+		alertController.addAction(chooseFromLibrary)
+
+		present(alertController, animated: true, completion: nil)
+	}
+
+	private func choosePhotoFromLibrary() {
+		let imagePicker = UIImagePickerController()
+		imagePicker.sourceType = .photoLibrary
+		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
+		present(imagePicker, animated: true, completion: nil)
+	}
+
+	private func takePhotoWithCamera() {
+		let imagePicker = UIImagePickerController()
+		imagePicker.sourceType = .camera
+		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
+		present(imagePicker, animated: true, completion: nil)
+	}
 }
+
+// MARK:- NoteDetailsViewController.Kind extension
+
+private extension NoteDetailsViewController.Kind {
+	var note: Note? {
+		guard case let .existing(note) = self else { return nil }
+		return note
+	}
+
+	var title: String {
+		switch self {
+		case .existing:
+			return "Detalle"
+		case .new:
+			return "Nueva Nota"
+		}
+	}
+}
+
+

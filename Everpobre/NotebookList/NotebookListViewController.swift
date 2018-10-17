@@ -11,9 +11,13 @@ import CoreData
 
 class NotebookListViewController: UIViewController {
 
+	// MARK: IBOutlets
+	
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var totalLabel: UILabel!
-	
+
+	// MARK: Parameters
+
 //	var managedContext: NSManagedObjectContext! // Beware to have a value before presenting the VC
 	var coredataStack: CoreDataStack!
 
@@ -39,6 +43,22 @@ class NotebookListViewController: UIViewController {
 //			return []
 //		}
 //	}
+
+	// MARK: Lifecycle
+
+	override func viewDidLoad() {
+		//model = deprecated_Notebook.dummyNotebookModel
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationController?.navigationItem.largeTitleDisplayMode = .always
+		
+		super.viewDidLoad()
+
+		configureSearchController()
+		showAll()
+		//reloadView()
+	}
+
+	// MARK: NSFetchedResultsController helper methods
 
 	private func getFetchedResultsController(with predicate: NSPredicate = NSPredicate(value: true)) -> NSFetchedResultsController<Notebook> {
 
@@ -72,17 +92,7 @@ class NotebookListViewController: UIViewController {
 		}
 	}
 
-	override func viewDidLoad() {
-		//model = deprecated_Notebook.dummyNotebookModel
-		navigationController?.navigationBar.prefersLargeTitles = true
-		navigationController?.navigationItem.largeTitleDisplayMode = .always
-		
-		super.viewDidLoad()
-
-		configureSearchController()
-		showAll()
-		//reloadView()
-	}
+	// MARK: Helper methods
 
 	private func configureSearchController() {
 		let search = UISearchController(searchResultsController: nil)
@@ -237,6 +247,8 @@ extension NotebookListViewController: UITableViewDelegate {
 	}
 }
 
+// MARK:- UISearchResultsUpdating implmentation
+
 extension NotebookListViewController: UISearchResultsUpdating {
 	func updateSearchResults(for searchController: UISearchController) {
 		if let text = searchController.searchBar.text, !text.isEmpty {
@@ -305,6 +317,8 @@ extension NotebookListViewController: UISearchResultsUpdating {
 		populateTotalLabel()
 	}
 }
+
+// MARK:- NSFetchedResultsControllerDelegate implementation
 
 extension NotebookListViewController: NSFetchedResultsControllerDelegate {
 	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

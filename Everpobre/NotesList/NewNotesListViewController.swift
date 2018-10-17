@@ -11,7 +11,10 @@ import CoreData
 
 class NewNotesListViewController: UIViewController {
 
+	// MARK: IBOutlet
 	@IBOutlet weak var collectionView: UICollectionView!
+
+	// MARK: Properties
 
 	let notebook: Notebook
 	//let managedContext: NSManagedObjectContext
@@ -25,6 +28,8 @@ class NewNotesListViewController: UIViewController {
 
 	let transition = Animator()
 
+	// MARK: Init
+
 	init(notebook: Notebook, coreDataStack: CoreDataStack) {
 		self.notebook = notebook
 		self.notes = (notebook.notes?.array as? [Note]) ?? []
@@ -35,6 +40,8 @@ class NewNotesListViewController: UIViewController {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+
+	// MARK: Lifecycle
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -52,6 +59,8 @@ class NewNotesListViewController: UIViewController {
 
 		self.navigationItem.rightBarButtonItems = [addButtonItem, exportButtonItem]
 	}
+
+	// MARK: Helper methods
 
 	@objc private func exportCSV() {
 
@@ -123,6 +132,8 @@ class NewNotesListViewController: UIViewController {
 
 }
 
+// MARK:- UICollectionViewDataSource
+
 extension NewNotesListViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return notes.count
@@ -135,6 +146,8 @@ extension NewNotesListViewController: UICollectionViewDataSource {
 	}
 
 }
+
+// MARK:- UICollectionViewDelegate
 
 extension NewNotesListViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -150,17 +163,23 @@ extension NewNotesListViewController: UICollectionViewDelegate {
 	}
 }
 
+// MARK:- UICollectionViewDelegateFlowLayout
+
 extension NewNotesListViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: 100, height: 150)
 	}
 }
 
+// MARK:- NoteDetailsViewControllerProtocol implementation
+
 extension NewNotesListViewController: NoteDetailsViewControllerProtocol {
 	func didSaveNote() {
 		self.notes = (notebook.notes?.array as? [Note]) ?? []
 	}
 }
+
+// MARK:- Custom Animation - UIViewControllerTransitioningDelegate
 
 extension NewNotesListViewController: UIViewControllerTransitioningDelegate {
 
