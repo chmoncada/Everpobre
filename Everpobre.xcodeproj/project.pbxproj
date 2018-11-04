@@ -46,6 +46,7 @@
 		A15B4AF5218F9A3D00EC9F77 /* Everpobre v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Everpobre v3.xcdatamodel"; sourceTree = "<group>"; };
 		A15B4AFC218FB61000EC9F77 /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A15B4AFD218FB61000EC9F77 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A15B4B00218FBD1400EC9F77 /* Everpobre v4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Everpobre v4.xcdatamodel"; sourceTree = "<group>"; };
 		A1678C74216D2FAD006D961B /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		A1678C76216D3847006D961B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A1678C9A216D3CF1006D961B /* Everpobre.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Everpobre.xcdatamodel; sourceTree = "<group>"; };
@@ -475,11 +476,12 @@
 		A1678C99216D3CF1006D961B /* Everpobre.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A15B4B00218FBD1400EC9F77 /* Everpobre v4.xcdatamodel */,
 				A15B4AF5218F9A3D00EC9F77 /* Everpobre v3.xcdatamodel */,
 				A14D6E6D21751AE0007EEE1F /* Everpobre v2.xcdatamodel */,
 				A1678C9A216D3CF1006D961B /* Everpobre.xcdatamodel */,
 			);
-			currentVersion = A15B4AF5218F9A3D00EC9F77 /* Everpobre v3.xcdatamodel */;
+			currentVersion = A15B4B00218FBD1400EC9F77 /* Everpobre v4.xcdatamodel */;
 			path = Everpobre.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
