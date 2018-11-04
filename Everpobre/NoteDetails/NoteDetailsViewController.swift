@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 // MARK:- NoteDetailsViewControllerProtocol
 
@@ -37,6 +38,8 @@ class NoteDetailsViewController: UIViewController {
 //	let note: Note
 	let managedContext: NSManagedObjectContext
 	let kind: Kind
+	lazy var locationManager = CLLocationManager()
+	var location: CLLocationCoordinate2D?
 
 	weak var delegate: NoteDetailsViewControllerProtocol?
 
@@ -84,12 +87,27 @@ class NoteDetailsViewController: UIViewController {
 		lastSeenDateLabel.text = "Visto: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
 		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
 
+		configureLocation()
+
 		guard let data = kind.note?.image as Data? else {
 			imageView.image = #imageLiteral(resourceName: "120x180.png")
 			return
 		}
 
 		imageView.image = UIImage(data: data)
+	}
+
+	private func configureLocation() {
+		locationManager.delegate = self
+		locationManager.requestWhenInUseAuthorization()
+		locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+		// Only get location in .new case
+		guard case .new = kind else { return }
+
+		if CLLocationManager.locationServicesEnabled() {
+			locationManager.requestLocation()
+		}
 	}
 
 	@objc private func saveNote() {
@@ -116,12 +134,20 @@ class NoteDetailsViewController: UIViewController {
 		case .new(let notebook):
 			let note = Note(context: managedContext)
 			let modifiedNote = addProperties(to: note)
+
 			modifiedNote.creationDate = NSDate()
 			modifiedNote.notebook = notebook
 
 			if let notes = notebook.notes?.mutableCopy() as? NSMutableOrderedSet {
 				notes.add(note)
 				notebook.notes = notes
+			}
+
+			if let userLocation = location {
+				let noteLocation = Location(context: managedContext)
+				noteLocation.latitude = userLocation.latitude
+				noteLocation.longitude = userLocation.longitude
+				note.location = noteLocation
 			}
 		}
 
@@ -206,6 +232,20 @@ extension NoteDetailsViewController: UIImagePickerControllerDelegate, UINavigati
 		imagePicker.delegate = self
 		imagePicker.allowsEditing = true
 		present(imagePicker, animated: true, completion: nil)
+	}
+}
+
+// MARK:- CLLocationManagerDelegate
+
+extension NoteDetailsViewController: CLLocationManagerDelegate {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		if let userLocation = locations.last {
+			location = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+		}
+	}
+
+	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+		print("No pude conseguir la ubicacion del usuario: \(error.localizedDescription)")
 	}
 }
 
