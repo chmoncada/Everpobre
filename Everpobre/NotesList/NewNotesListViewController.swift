@@ -167,7 +167,9 @@ extension NewNotesListViewController: UICollectionViewDelegate {
 
 extension NewNotesListViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 100, height: 150)
+		let numberOfCellsPerRow: CGFloat = 3
+		let width = (collectionView.frame.width - 2 * 20 - ( numberOfCellsPerRow - 1) * 10) / numberOfCellsPerRow
+		return CGSize(width: width, height: width / 120 * 230)
 	}
 }
 

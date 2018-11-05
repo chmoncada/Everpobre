@@ -12,6 +12,7 @@ class NotesListCollectionViewCell: UICollectionViewCell {
 
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var creationDateLabel: UILabel!
+	@IBOutlet weak var noteImageView: UIImageView!
 
 	var item: Note!
 
@@ -23,5 +24,12 @@ class NotesListCollectionViewCell: UICollectionViewCell {
 		backgroundColor = .white
 		titleLabel.text = item.title
 		creationDateLabel.text = (item.creationDate as Date?)?.customStringLabel()
+
+		guard let data = item.image as Data? else {
+			noteImageView.image = #imageLiteral(resourceName: "120x180")
+			return
+		}
+
+		noteImageView.image = UIImage(data: data)
 	}
 }
