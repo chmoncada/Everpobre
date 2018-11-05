@@ -8,17 +8,21 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class NewNotesListViewController: UIViewController {
 
 	// MARK: IBOutlet
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var segmentedControl: UISegmentedControl!
 
 	// MARK: Properties
 
 	let notebook: Notebook
 	//let managedContext: NSManagedObjectContext
 	let coreDataStack: CoreDataStack!
+	let locationManager = CLLocationManager()
 
 	var notes: [Note] = [] {
 		didSet {
@@ -58,9 +62,46 @@ class NewNotesListViewController: UIViewController {
 		let exportButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(exportCSV))
 
 		self.navigationItem.rightBarButtonItems = [addButtonItem, exportButtonItem]
+
+		mapView.isHidden = true
+		collectionView.isHidden = false
+
+		setupMapView()
+	}
+
+	@IBAction func toggleView(_ sender: UISegmentedControl) {
+		switch sender.selectedSegmentIndex {
+		case 0:
+			mapView.isHidden = true
+			collectionView.isHidden = false
+		case 1:
+			collectionView.isHidden = true
+			mapView.isHidden = false
+		default:
+			fatalError("not a valid index")
+		}
 	}
 
 	// MARK: Helper methods
+
+	private func setupMapView() {
+		locationManager.delegate = self
+		locationManager.requestWhenInUseAuthorization()
+		locationManager.desiredAccuracy = kCLLocationAccuracyBest
+		determineCurrentLocation()
+
+		mapView.showsUserLocation = true
+		mapView.userLocation.title = nil
+		mapView.delegate = self
+
+		mapView.addAnnotations(notes)
+	}
+
+	private func determineCurrentLocation() {
+		if CLLocationManager.locationServicesEnabled() {
+			locationManager.requestLocation()
+		}
+	}
 
 	@objc private func exportCSV() {
 
@@ -198,4 +239,56 @@ extension NewNotesListViewController: UIViewControllerTransitioningDelegate {
 	func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 		return nil
 	}
+}
+
+extension NewNotesListViewController: CLLocationManagerDelegate {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		if let location = locations.last {
+			centerMap(at: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
+		}
+	}
+
+	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+		print("Failed to find user's location: \(error.localizedDescription)")
+	}
+
+	private func centerMap(at center: CLLocationCoordinate2D) {
+		let regionRadius: CLLocationDistance = 1000
+		let region = MKCoordinateRegion(center: center, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+		mapView.setRegion(region, animated: true)
+		//mapView.delegate = self
+	}
+}
+
+extension NewNotesListViewController: MKMapViewDelegate {
+
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		guard let annotation = annotation as? Note else { return nil }
+
+		let identifier = "note"
+		var view: MKMarkerAnnotationView
+
+		if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+			dequeuedView.annotation = annotation
+			view = dequeuedView
+		} else {
+			view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+			view.canShowCallout = true
+		}
+
+		view.markerTintColor = .green
+		view.titleVisibility = .visible
+		view.subtitleVisibility = .adaptive
+
+		return view
+	}
+
+}
+
+extension Note: MKAnnotation {
+	public var coordinate: CLLocationCoordinate2D {
+		guard let location = self.location else { return kCLLocationCoordinate2DInvalid }
+		return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+	}
+
 }
